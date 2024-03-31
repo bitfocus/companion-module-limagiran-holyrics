@@ -1,5 +1,5 @@
 {
-	"name": "your-module-name",
+	"name": "companion-module-holyrics",
 	"version": "0.1.0",
 	"main": "main.js",
 	"scripts": {
@@ -9,7 +9,7 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/bitfocus/companion-module-your-module-name.git"
+		"url": "git+https://github.com/bitfocus/companion-module-holyrics.git"
 	},
 	"dependencies": {
 		"@companion-module/base": "~1.7.0"

@@ -3,6 +3,7 @@ const UpgradeScripts = require('./upgrades')
 const UpdateActions = require('./actions')
 const UpdateFeedbacks = require('./feedbacks')
 const UpdateVariableDefinitions = require('./variables')
+const PollVariables = require('./poll')
 
 class ModuleInstance extends InstanceBase {
 	constructor(internal) {
@@ -10,13 +11,8 @@ class ModuleInstance extends InstanceBase {
 	}
 
 	async init(config) {
-		this.config = config
-
-		this.updateStatus(InstanceStatus.Ok)
-
-		this.updateActions() // export actions
-		this.updateFeedbacks() // export feedbacks
-		this.updateVariableDefinitions() // export variable definitions
+		this.configUpdated(config)
+		this.state = {}
 	}
 	// When module gets deleted
 	async destroy() {
@@ -25,6 +21,16 @@ class ModuleInstance extends InstanceBase {
 
 	async configUpdated(config) {
 		this.config = config
+
+		this.updateStatus(InstanceStatus.Ok)
+
+		var bible_versions = JSON.parse( await this.do_command('GetBibleVersions') )
+		this.CHOICES_BIBLE_VERSIONS = bible_versions.data.map( (v) => { return { id: v['key'], label: v['title'] } })
+
+		this.updateActions() // export actions
+		this.updateFeedbacks() // export feedbacks
+		this.updateVariableDefinitions() // export variable definitions
+		this.initPolling()
 	}
 
 	// Return config fields for web config
@@ -33,16 +39,25 @@ class ModuleInstance extends InstanceBase {
 			{
 				type: 'textinput',
 				id: 'host',
-				label: 'Target IP',
-				width: 8,
+				label: 'IP Address',
+				width: 6,
+				default: '127.0.0.1',
 				regex: Regex.IP,
 			},
 			{
-				type: 'textinput',
+				type: 'number',
 				id: 'port',
-				label: 'Target Port',
+				label: 'IP Port',
+				width: 6,
+				min: 1,
+				max: 65535,
+				default: 8091,
+			},	
+			{
+				type: 'textinput',
+				id: 'token',
+				label: 'Access Token',
 				width: 4,
-				regex: Regex.PORT,
 			},
 		]
 	}
@@ -57,6 +72,29 @@ class ModuleInstance extends InstanceBase {
 
 	updateVariableDefinitions() {
 		UpdateVariableDefinitions(this)
+	}
+
+	initPolling() {
+		if (this.pollTimer) {
+			clearInterval(this.pollTimer)
+		}
+		this.pollTimer = setInterval(async () => {
+			PollVariables(this)
+		},1000)
+ 
+	}
+
+	async do_command(cmd, options={}) {
+		console.log('Command: ', cmd, JSON.stringify(options))
+		let url = `http://${this.config.host}:${this.config.port}/api/${cmd}?token=${this.config.token}`
+		const response = await fetch(url, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(options),
+		})
+		return response.text()
 	}
 }
 
