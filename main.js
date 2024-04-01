@@ -3,6 +3,7 @@ const UpgradeScripts = require('./upgrades')
 const UpdateActions = require('./actions')
 const UpdateFeedbacks = require('./feedbacks')
 const UpdateVariableDefinitions = require('./variables')
+const UpdatePresets = require('./presets')
 const PollVariables = require('./poll')
 
 class ModuleInstance extends InstanceBase {
@@ -22,15 +23,22 @@ class ModuleInstance extends InstanceBase {
 	async configUpdated(config) {
 		this.config = config
 
-		this.updateStatus(InstanceStatus.Ok)
+		this.connected = false
+		
 
 		var bible_versions = JSON.parse( await this.do_command('GetBibleVersions') )
-		this.CHOICES_BIBLE_VERSIONS = bible_versions.data.map( (v) => { return { id: v['key'], label: v['title'] } })
+		if (bible_versions != null) {
+			this.CHOICES_BIBLE_VERSIONS = bible_versions.data.map( (v) => { return { id: v['key'], label: v['title'] } })
+		} else {
+			this.CHOICES_BIBLE_VERSIONS = [{id: '0', label:'NOT INITIALIZED'}]
+		}
 
 		this.updateActions() // export actions
 		this.updateFeedbacks() // export feedbacks
 		this.updateVariableDefinitions() // export variable definitions
 		this.initPolling()
+		
+		this.updatePresets()
 	}
 
 	// Return config fields for web config
@@ -62,6 +70,10 @@ class ModuleInstance extends InstanceBase {
 		]
 	}
 
+	updatePresets() {
+		UpdatePresets(this)
+	}
+
 	updateActions() {
 		UpdateActions(this)
 	}
@@ -85,15 +97,46 @@ class ModuleInstance extends InstanceBase {
 	}
 
 	async do_command(cmd, options={}) {
-		console.log('Command: ', cmd, JSON.stringify(options))
+		async function fetchWithTimeout(resource, options = {}) {
+			const { timeout = 8000 } = options
+			
+			const controller = new AbortController()
+			const id = setTimeout(() => controller.abort(), timeout)
+		  
+			const response = await fetch(resource, {
+			  ...options,
+			  signal: controller.signal  
+			})
+			clearTimeout(id)
+		  
+			return response
+		}
+
 		let url = `http://${this.config.host}:${this.config.port}/api/${cmd}?token=${this.config.token}`
-		const response = await fetch(url, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(options),
-		})
+		var response
+		try {
+			response = await fetchWithTimeout(url, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(options),
+			})
+			
+			if (response.status != 200) {
+				this.connected = false
+				this.updateStatus(InstanceStatus.ConnectionFailure, response.statusText)
+				return null
+			}
+		} catch (e) {
+			this.connected = false
+			this.updateStatus(InstanceStatus.ConnectionFailure)
+			return null
+		}
+		if (!this.connected) {
+			this.connected = true
+			this.updateStatus(InstanceStatus.Ok)
+		}
 		return response.text()
 	}
 }

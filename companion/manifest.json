@@ -1,9 +1,9 @@
 {
-	"id": "companion-module-holyrics",
-	"name": "companion-module-holyrics",
+	"id": "companion-module-limagiran-holyrics",
+	"name": "companion-module-limagiran-holyrics",
 	"shortname": "holyrics",
 	"description": "Control Holyrics, a tool to display lyrics or bible verses",
-	"version": "0.0.0",
+	"version": "1.0.0",
 	"license": "MIT",
 	"repository": "git+https://github.com/bitfocus/companion-module-limagiran-holyrics.git",
 	"bugs": "https://github.com/bitfocus/companion-module-limagiran-holyrics/issues",

@@ -10,5 +10,8 @@ module.exports = async function (self) {
 		{ variableId: 'slide_count', name: 'Holyrics: Total number of slides' },
 		{ variableId: 'show_alert', name: 'Holyrics: Whether an alert is being shown' },
 		{ variableId: 'countdown', name: 'Holyrics: Countdown time remaining'},
+		{ variableId: 'f8_active', name: 'F8 (wallpaper) active'},
+		{ variableId: 'f9_active', name: 'F9 (empty slide) active'},
+		{ variableId: 'f10_active', name: 'F10 (black screen) active'},
 	])
 }

@@ -1,14 +1,19 @@
 const { combineRgb } = require('@companion-module/base')
 
 module.exports = async function (self) {
+	const black = combineRgb(0, 0, 0)
+    const white = combineRgb(255, 255, 255)
+    const red = combineRgb(255, 0, 0)
+    const gray = combineRgb(64, 64, 64)
+
 	self.setFeedbackDefinitions({
 		Alert: {
 			name: 'Alert active',
 			type: 'boolean',
 			//label: 'Alert active',
 			defaultStyle: {
-				bgcolor: combineRgb(255, 0, 0),
-				color: combineRgb(0, 0, 0),
+				bgcolor: red,
+				color: black,
 			},
 			options: [
 			],
@@ -21,8 +26,8 @@ module.exports = async function (self) {
 			type: 'boolean',
 			//label: 'Countdown active',
 			defaultStyle: {
-				bgcolor: combineRgb(255, 0, 0),
-				color: combineRgb(0, 0, 0),
+				bgcolor: red,
+				color: black,
 			},
 			options: [],
 			callback: async (feedback) => {
@@ -34,12 +39,11 @@ module.exports = async function (self) {
 			type: 'boolean',
 			//label: 'Any slide active',
 			defaultStyle: {
-				bgcolor: combineRgb(255, 0, 0),
-				color: combineRgb(0, 0, 0),
+				bgcolor: red,
+				color: black,
 			},
 			options: [],
 			callback: async (feedback) => {
-				console.log('slide',self.state['slide_type'], self.state['slide_type'] != "")
 				return self.state['slide_type'] != undefined
 			}
 		},
@@ -47,8 +51,8 @@ module.exports = async function (self) {
 			name: 'F8 (wallpaper) active',
 			type: 'boolean',
 			defaultStyle: {
-				bgcolor: combineRgb(255, 0, 0),
-				color: combineRgb(0, 0, 0),
+				bgcolor: red,
+				color: black,
 			},
 			options: [],
 			callback: async (feedback) => {
@@ -59,8 +63,8 @@ module.exports = async function (self) {
 			name: 'F9 (empty slide) active',
 			type: 'boolean',
 			defaultStyle: {
-				bgcolor: combineRgb(255, 0, 0),
-				color: combineRgb(0, 0, 0),
+				bgcolor: red,
+				color: black,
 			},
 			options: [],
 			callback: async (feedback) => {
@@ -71,13 +75,41 @@ module.exports = async function (self) {
 			name: 'F10 (black screen) active',
 			type: 'boolean',
 			defaultStyle: {
-				bgcolor: combineRgb(255, 0, 0),
-				color: combineRgb(0, 0, 0),
+				bgcolor: red,
+				color: black,
 			},
 			options: [],
 			callback: async (feedback) => {
 				return self.state['f10_active']
 			}
 		},
+		FirstSlide: {
+			name: "First slide of the presentation",
+			type: 'boolean',
+			defaultStyle: {
+				bgcolor: gray
+			},
+			options: [],
+			callback: async (feedback) => {
+				if (self.state['slide_number'] != undefined) {
+					return self.state["slide_number"] == 1
+				}
+				return false
+			}
+		},
+		LastSlide: {
+			name: "Last slide of the presentation",
+			type: 'boolean',
+			defaultStyle: {
+				bgcolor: gray
+			},
+			options: [],
+			callback: async (feedback) => {
+				if (self.state['slide_number'] != undefined) {
+					return self.state["slide_number"] == self.state["slide_count"]
+				}
+				return false
+			}
+		}
 	})
 }

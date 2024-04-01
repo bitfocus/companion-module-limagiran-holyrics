@@ -18,19 +18,19 @@ module.exports = async function (self) {
 
     var slide = JSON.parse(await self.do_command('GetCurrentPresentation', { include_slides: true }))
     var alert = JSON.parse(await self.do_command('GetAlert'))
-    self.state['show_alert'] = alert.data?.show
-    self.state['slide_id'] = slide.data?.id
-    self.state['slide_type'] = slide.data?.type
-    self.state['slide_name'] = slide.data?.name
-    self.state['song_id'] = slide.data?.song_id
-    self.state['reference_id'] = slide.data?.reference_id
-    self.state['slide_number'] = slide.data?.slide_number
-    self.state['slide_count'] = slide.data?.total_slides
+    self.state['show_alert'] = alert?.data?.show
+    self.state['slide_id'] = slide?.data?.id
+    self.state['slide_type'] = slide?.data?.type
+    self.state['slide_name'] = slide?.data?.name
+    self.state['song_id'] = slide?.data?.song_id
+    self.state['reference_id'] = slide?.data?.reference_id
+    self.state['slide_number'] = slide?.data?.slide_number
+    self.state['slide_count'] = slide?.data?.total_slides
     
-    if (slide.data?.slide_type != undefined) {
-        self.state['f8_active'] = slide.data?.slide_type == 'wallpaper'
-        self.state['f9_active'] = slide.data?.slide_type == 'blank'
-        self.state['f10_active'] = slide.data?.slide_type == 'black'
+    if (slide?.data?.slide_type != undefined) {
+        self.state['f8_active'] = slide.data.slide_type == 'wallpaper'
+        self.state['f9_active'] = slide.data.slide_type == 'blank'
+        self.state['f10_active'] = slide.data.slide_type == 'black'
     } else {
         var f9    = JSON.parse(await self.do_command('GetF9'))
         var f8    = JSON.parse(await self.do_command('GetF8'))
@@ -41,7 +41,7 @@ module.exports = async function (self) {
         self.state['f10_active'] = f10?.data
     }
 
-    if (slide.data !== undefined) {
+    if (slide?.data !== undefined) {
         var t = extractCountdownTimeFromPresentation(slide.data)
         if (t==null) {
             self.state['countdown'] = ''

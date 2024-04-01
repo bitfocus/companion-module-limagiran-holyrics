@@ -1,6 +1,31 @@
 module.exports = function (self) {
 
-
+    const PLAY_MEDIA_SETTINGS = [
+		{
+			type: 'number',
+			label: 'Volume (optional)',
+			id: 'volume',
+			default: 100,
+		},
+		{
+			type: 'checkbox',
+			label: 'Repeat',
+			id: 'repeat',
+			default: false
+		},
+		{
+			type: 'textinput',
+			label: 'Start time (optional, SS, MM:SS or HH:MM:SS format)',
+			id: 'start',
+			regex: '/(^$|^[0-9]?[0-9]$|^[0-9][0-9]:[0-5][0-9]$|^[0-9][0-9]:[0-5][0-9]:[0-5][0-9]$)/'
+		},
+		{
+			type: 'textinput',
+			label: 'Stop time (optional, SS, MM:SS or HH:MM:SS format)',
+			id: 'stop',
+			regex: '/(^$|^[0-9]?[0-9]$|^[0-9][0-9]:[0-5][0-9]$|^[0-9][0-9]:[0-5][0-9]:[0-5][0-9]$)/'
+		}
+	]
 
 	self.setActionDefinitions({
 		show_logo: {
@@ -101,6 +126,44 @@ module.exports = function (self) {
 				self.do_command("ShowQuickPresentation", options)
 			}
 		},
+		play_audio: {
+			name: "Play Audio",
+			options: [
+				{
+					type: 'textinput',
+					label: 'Audio file name',
+					id: 'file',
+				},
+			].concat(PLAY_MEDIA_SETTINGS),
+			callback: async (event) => {
+				var settings = {
+					volume: event.options.volume,
+					repeat: event.options.repeat,
+				}
+				if (event.options.start != "") { settings.start_time = event.options.start }
+				if (event.options.stop != "") { settings.stop_time = event.options.stop }
+				self.do_command('PlayAudio',{file: event.options.file, settings: settings})
+			}
+		},
+		play_video: {
+			name: "Play Video",
+			options: [
+				{
+					type: 'textinput',
+					label: 'Video file name',
+					id: 'file',
+				},
+			].concat(PLAY_MEDIA_SETTINGS),
+			callback: async (event) => {
+				var settings = {
+					volume: event.options.volume,
+					repeat: event.options.repeat,
+				}
+				if (event.options.start != "") { settings.start_time = event.options.start }
+				if (event.options.stop != "") { settings.stop_time = event.options.stop }
+				self.do_command('PlayVideo',{file: event.options.file, settings: settings})
+			}
+		},		
 		set_f8: {
 			name: 'Set F8 (wallpaper)',
 			options: [
