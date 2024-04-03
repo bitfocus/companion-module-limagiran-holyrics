@@ -83,6 +83,18 @@ module.exports = async function (self) {
 				return self.state['f10_active']
 			}
 		},
+		MP_Playing: {
+			name: 'MediaPlayer plays a file',
+			type: 'boolean',
+			defaultStyle: {
+				bgcolor: red,
+				color: black
+			},
+			options: [],
+			callback: async (feedback) => {
+				return self.state['mp_playing']
+			}
+		},
 		FirstSlide: {
 			name: "First slide of the presentation",
 			type: 'boolean',

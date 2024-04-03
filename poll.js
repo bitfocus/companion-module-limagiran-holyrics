@@ -18,6 +18,8 @@ module.exports = async function (self) {
 
     var slide = JSON.parse(await self.do_command('GetCurrentPresentation', { include_slides: true }))
     var alert = JSON.parse(await self.do_command('GetAlert'))
+    var mediaPlayer = JSON.parse(await self.do_command('GetMediaPlayerInfo'))
+
     self.state['show_alert'] = alert?.data?.show
     self.state['slide_id'] = slide?.data?.id
     self.state['slide_type'] = slide?.data?.type
@@ -52,6 +54,31 @@ module.exports = async function (self) {
         self.state['countdown'] = ''
     }
     
+    self.state['mp_playing'] = mediaPlayer?.data?.playing == true
+    self.state['mp_time_elapsed'] = mediaPlayer?.data?.time_elapsed
+    self.state['mp_time_remaining'] = mediaPlayer?.data?.time_remaining
+
     self.setVariableValues(self.state)
     self.checkFeedbacks()
 }
+
+/* 
+{
+  "status": "ok",
+  "data": {
+    "name": "Sternengeschichten Folge 592: Killersatelliten und Weltraumwaffen",
+    "path": "C:\\Holyrics\\Holyrics\\files\\media\\audio\\1399936-m-0a446e841422777d8492a441644d6968.mp3",
+    "playing": true,
+    "duration_ms": 662282,
+    "time_ms": 244577,
+    "time_elapsed": "04:04",
+    "time_remaining": "06:57",
+    "volume": 90,
+    "mute": false,
+    "repeat": false,
+    "execute_single": true,
+    "shuffle": false,
+    "fullscreen": false
+  }
+}
+*/

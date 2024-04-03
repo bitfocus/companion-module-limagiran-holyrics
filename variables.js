@@ -13,5 +13,8 @@ module.exports = async function (self) {
 		{ variableId: 'f8_active', name: 'F8 (wallpaper) active'},
 		{ variableId: 'f9_active', name: 'F9 (empty slide) active'},
 		{ variableId: 'f10_active', name: 'F10 (black screen) active'},
+		{ variableId: 'mp_playing', name: 'MediaPlayer: playing'},
+		{ variableId: 'mp_time_elapsed', name: 'MediaPlayer: Elapsed time'},
+		{ variableId: 'mp_time_remaining', name: 'MediaPlayer: Remaining time'},
 	])
 }

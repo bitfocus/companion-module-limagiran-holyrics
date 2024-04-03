@@ -140,9 +140,14 @@ module.exports = function (self) {
 					volume: event.options.volume,
 					repeat: event.options.repeat,
 				}
+				var file = event.options.file
+				if (file.charAt(0) === '"' && file.charAt(file.length - 1) === '"') {
+					// Remove the first and last characters (quotes)
+					file =  file.slice(1, -1);
+				}
 				if (event.options.start != "") { settings.start_time = event.options.start }
 				if (event.options.stop != "") { settings.stop_time = event.options.stop }
-				self.do_command('PlayAudio',{file: event.options.file, settings: settings})
+				self.do_command('PlayAudio',{file: file, settings: settings})
 			}
 		},
 		play_video: {
@@ -159,9 +164,14 @@ module.exports = function (self) {
 					volume: event.options.volume,
 					repeat: event.options.repeat,
 				}
+				var file = event.options.file
+				if (file.charAt(0) === '"' && file.charAt(file.length - 1) === '"') {
+					// Remove the first and last characters (quotes)
+					file = file.slice(1, -1);
+				}
 				if (event.options.start != "") { settings.start_time = event.options.start }
 				if (event.options.stop != "") { settings.stop_time = event.options.stop }
-				self.do_command('PlayVideo',{file: event.options.file, settings: settings})
+				self.do_command('PlayVideo',{file: file, settings: settings})
 			}
 		},		
 		set_f8: {
@@ -256,6 +266,41 @@ module.exports = function (self) {
 			callback: async (event) => {
 				var alert = JSON.parse(await self.do_command('GetAlert'))
 				self.do_command('SetAlert', {text: event.options.text, show: !alert.data.show})
+			}
+		},
+		mp_pause: {
+			name: 'MediaPlayer Pause',
+			options: [],
+			callback: async (event) => {
+				self.do_command('MediaPlayerAction', {action: 'pause'})
+			}
+		},
+		mp_play: {
+			name: 'MediaPlayer Play',
+			options: [],
+			callback: async (event) => {
+				self.do_command('MediaPlayerAction', {action: 'play'})
+			}
+		},
+		mp_stop: {
+			name: 'MediaPlayer Stop',
+			options: [],
+			callback: async (event) => {
+				self.do_command('MediaPlayerAction', {action: 'stop'})
+			}
+		},
+		mp_next: {
+			name: 'MediaPlayer Next',
+			options: [],
+			callback: async (event) => {
+				self.do_command('MediaPlayerAction', {action: 'stop'})
+			}
+		},
+		mp_previous: {
+			name: 'MediaPlayer Previous',
+			options: [],
+			callback: async (event) => {
+				self.do_command('MediaPlayerAction', {action: 'previous'})
 			}
 		},
 		show_countdown: {
