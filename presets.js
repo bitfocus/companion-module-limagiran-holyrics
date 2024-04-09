@@ -210,6 +210,40 @@ module.exports = function (self) {
                     }
                 }
             ]
+        },
+        mp_play: {
+            type: 'button',
+            category: 'Media Player',
+            name: 'Play',
+            style: {
+                text: 'Play',
+                color: white,
+                bgcolor: black,
+                alignment: 'center:bottom',
+
+            },
+            steps: [
+                {
+                    down: [
+                        {
+                            actionId: 'mp_play',
+                            options: {}
+                        }
+                    ],
+                    up: []
+                }
+            ],
+            feedbacks: [
+                {
+                    feedbackId: 'MP_Playing',
+                    options: [],
+                    style: {
+                        color: black,
+                        bgcolor: red,
+                        text: 'Play...\\n$(holyrics:mp_time_remaining)'
+                    }
+                }
+            ]
         }
 
     })
