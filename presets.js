@@ -7,46 +7,6 @@ module.exports = function (self) {
     const gray = combineRgb(64, 64, 64)
 
     self.setPresetDefinitions({
-        next: {
-            type: 'button',
-            category: 'Slide controls',
-            name: 'Next',
-            style: {
-                text: '>\\nNext',
-                color: black,
-                bgcolor: combineRgb(0, 128, 0),
-            },
-            steps: [
-                {
-                    down: [
-                        {
-                            actionId: 'next',
-                            options: {}
-                        }
-                    ],
-                    up: []
-                }
-            ],
-            feedbacks: [
-                {
-                    feedbackId: 'LastSlide',
-                    options: [],
-                    style: {
-                        color: black,
-                        bgcolor: gray,
-                    }
-                },
-                {
-                    feedbackId: 'Slide',
-                    options: [],
-                    isInverted: true,
-                    style: {
-                        color: black,
-                        bgcolor: gray,
-                    }
-                }
-            ]
-        },
         prev: {
             type: 'button',
             category: 'Slide controls',
@@ -70,6 +30,46 @@ module.exports = function (self) {
             feedbacks: [
                 {
                     feedbackId: 'FirstSlide',
+                    options: [],
+                    style: {
+                        color: black,
+                        bgcolor: gray,
+                    }
+                },
+                {
+                    feedbackId: 'Slide',
+                    options: [],
+                    isInverted: true,
+                    style: {
+                        color: black,
+                        bgcolor: gray,
+                    }
+                }
+            ]
+        },
+        next: {
+            type: 'button',
+            category: 'Slide controls',
+            name: 'Next',
+            style: {
+                text: '>\\nNext',
+                color: black,
+                bgcolor: combineRgb(0, 128, 0),
+            },
+            steps: [
+                {
+                    down: [
+                        {
+                            actionId: 'next',
+                            options: {}
+                        }
+                    ],
+                    up: []
+                }
+            ],
+            feedbacks: [
+                {
+                    feedbackId: 'LastSlide',
                     options: [],
                     style: {
                         color: black,
@@ -211,12 +211,12 @@ module.exports = function (self) {
                 }
             ]
         },
-        mp_play: {
+        mp_previous: {
             type: 'button',
             category: 'Media Player',
-            name: 'Play',
+            name: 'Previous',
             style: {
-                text: 'Play',
+                text: '\u23ee',
                 color: white,
                 bgcolor: black,
                 alignment: 'center:bottom',
@@ -226,7 +226,31 @@ module.exports = function (self) {
                 {
                     down: [
                         {
-                            actionId: 'mp_play',
+                            actionId: 'mp_previous',
+                            options: {}
+                        }
+                    ],
+                    up: []
+                }
+            ],
+            feedbacks: []
+        },
+        mp_play_pause: {
+            type: 'button',
+            category: 'Media Player',
+            name: 'Play',
+            style: {
+                text: '\u23f5',
+                color: white,
+                bgcolor: black,
+                alignment: 'center:bottom',
+
+            },
+            steps: [
+                {
+                    down: [
+                        {
+                            actionId: 'mp_play_pause',
                             options: {}
                         }
                     ],
@@ -240,11 +264,128 @@ module.exports = function (self) {
                     style: {
                         color: black,
                         bgcolor: red,
-                        text: 'Play...\\n$(holyrics:mp_time_remaining)'
+                        text: '\u23f8\\n$(holyrics:mp_time_remaining)'
                     }
                 }
             ]
-        }
+        },
+        mp_next: {
+            type: 'button',
+            category: 'Media Player',
+            name: 'Next',
+            style: {
+                text: '\u23ed',
+                color: white,
+                bgcolor: black,
+                alignment: 'center:bottom',
+
+            },
+            steps: [
+                {
+                    down: [
+                        {
+                            actionId: 'mp_next',
+                            options: {}
+                        }
+                    ],
+                    up: []
+                }
+            ],
+            feedbacks: []
+        },
+        lyrics_playlist_previous: {
+            type: 'button',
+            category: 'Lyrics Playlist',
+            name: 'Previous lyrics',
+            style: {
+                text: '\u23ee',
+                bgcolor: black,
+                color: combineRgb(0, 128, 0),
+            },
+            steps: [
+                {
+                    down: [
+                        {
+                            actionId: 'lyrics_playlist_show_previous',
+                            options: {}
+                        }
+                    ],
+                    up: []
+                }
+            ],
+            feedbacks: [
+                {
+                    feedbackId: 'FirstLyricsPlaylist',
+                    options: [],
+                    style: {
+                        color: black,
+                        bgcolor: gray,
+                    }
+                },
+            ]
+        },
+        lyrics_playlist_show_current: {
+            type: 'button',
+            category: 'Lyrics Playlist',
+            name: 'Show current',
+            style: {
+                text: '$(holyrics:current_lyrics_title)',
+                bgcolor: black,
+                color: combineRgb(0, 128, 0),
+            },
+            steps: [
+                {
+                    down: [
+                        {
+                            actionId: 'show_lyrics',
+                            options: [{
+                                id: '$(holyrics:current_lyrics)'
+                            }]
+                        }
+                    ],
+                    up: []
+                }
+            ],
+            feedbacks: [{
+                feedbackId: 'Slide',
+                options: [],
+                style: {
+                    color: white,
+                    bgcolor: red
+                }
+            }]
+        },
+        lyrics_playlist_next: {
+            type: 'button',
+            category: 'Lyrics Playlist',
+            name: 'Next lyrics',
+            style: {
+                text: '\u23ed',
+                bgcolor: black,
+                color: combineRgb(0, 128, 0),
+            },
+            steps: [
+                {
+                    down: [
+                        {
+                            actionId: 'lyrics_playlist_show_next',
+                            options: {}
+                        }
+                    ],
+                    up: []
+                }
+            ],
+            feedbacks: [
+                {
+                    feedbackId: 'LastLyricsPlaylist',
+                    options: [],
+                    style: {
+                        color: black,
+                        bgcolor: gray,
+                    }
+                },
+            ]
+        },
 
     })
 }

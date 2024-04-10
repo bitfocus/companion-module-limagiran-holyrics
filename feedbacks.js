@@ -122,6 +122,29 @@ module.exports = async function (self) {
 				}
 				return false
 			}
-		}
+		},
+		FirstLyricsPlaylist: {
+			name: "First lyrics from the playlist",
+			type: 'boolean',
+			defaultStyle: {
+				bgcolor: gray
+			},
+			options: [],
+			callback: async (feedback) => {
+				return self.state["playlist_first_lyrics"] == true
+			}
+		},
+		LastLyricsPlaylist: {
+			name: "Last lyrics from the playlist",
+			type: 'boolean',
+			defaultStyle: {
+				bgcolor: gray
+			},
+			options: [],
+			callback: async (feedback) => {
+				return self.state["playlist_last_lyrics"] == true
+			}
+		},
+
 	})
 }

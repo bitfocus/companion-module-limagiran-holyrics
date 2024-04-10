@@ -85,10 +85,12 @@ module.exports = function (self) {
 					type: 'textinput',
 					label: 'ID',
 					id: 'id',
+					useVariables: true,
 				}
 			],
-			callback: async (event) => {
-				self.do_command('ShowLyrics', {id: event.options.id})
+			callback: async (action) => {
+				var id = await self.parseVariablesInString(action.options.id)
+				self.do_command('ShowLyrics', {id: id})
 			}
 		},
 		show_text: {
@@ -282,6 +284,17 @@ module.exports = function (self) {
 				self.do_command('MediaPlayerAction', {action: 'play'})
 			}
 		},
+		mp_play_pause: {
+			name: 'MediaPlayer Play/Pause',
+			options: [],
+			callback: async (event) => {
+				var action='play'
+				if (self.state['mp_playing']) {
+					action='pause'
+				}
+				self.do_command('MediaPlayerAction', {action: action})
+			}
+		},
 		mp_stop: {
 			name: 'MediaPlayer Stop',
 			options: [],
@@ -293,7 +306,7 @@ module.exports = function (self) {
 			name: 'MediaPlayer Next',
 			options: [],
 			callback: async (event) => {
-				self.do_command('MediaPlayerAction', {action: 'stop'})
+				self.do_command('MediaPlayerAction', {action: 'next'})
 			}
 		},
 		mp_previous: {
@@ -358,6 +371,48 @@ module.exports = function (self) {
 			callback: async (event) => {
 				self.do_command('CloseCurrentPresentation')
 			}
-		}
+		},
+		lyrics_playlist_show_next: {
+			name: 'Lyrics Playlist: Show next',
+			options: [],
+			callback: async (event) => {
+				var playlist = JSON.parse(await self.do_command('GetLyricsPlaylist'))?.data
+				var idx = 0
+				if (self.state['current_lyrics'] != undefined) {
+					idx = playlist.findIndex(
+						(e) => e.id == self.state['current_lyrics']
+					)
+					idx = idx + 1 // "next"
+				}
+				if (idx < playlist.length) {
+					self.state['current_lyrics'] = playlist[idx].id
+					self.state['current_lyrics_title'] = playlist[idx].title
+					self.state['playlist_first_lyrics'] = (idx == 0)
+					self.state['playlist_last_lyrics'] = (idx == playlist.length-1)
+				}
+				self.do_command('ShowLyrics', {id: self.state['current_lyrics']})
+			}
+		},
+		lyrics_playlist_show_previous: {
+			name: 'Lyrics Playlist: Show previous',
+			options: [],
+			callback: async (event) => {
+				var playlist = JSON.parse(await self.do_command('GetLyricsPlaylist'))?.data
+				var idx = 0
+				if (self.state['current_lyrics'] != undefined) {
+					idx = playlist.findIndex(
+						(e) => e.id == self.state['current_lyrics']
+					)
+					idx = idx - 1 // "previous"
+				}
+				if (idx >= 0) {
+					self.state['current_lyrics'] = playlist[idx].id
+					self.state['current_lyrics_title'] = playlist[idx].title
+					self.state['playlist_first_lyrics'] = (idx == 0)
+					self.state['playlist_last_lyrics'] = (idx == playlist.length-1)
+				}				
+				self.do_command('ShowLyrics', {id: self.state['current_lyrics']})
+			}
+		},
 	})
 }

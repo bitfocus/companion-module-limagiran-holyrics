@@ -16,5 +16,9 @@ module.exports = async function (self) {
 		{ variableId: 'mp_playing', name: 'MediaPlayer: playing'},
 		{ variableId: 'mp_time_elapsed', name: 'MediaPlayer: Elapsed time'},
 		{ variableId: 'mp_time_remaining', name: 'MediaPlayer: Remaining time'},
+		{ variableId: 'current_lyrics', name: 'ID of the current lyrics from the playlist'},
+		{ variableId: 'current_lyrics_title', name: 'Title of the current lyrics from the playlist'},
+		{ variableId: 'playlist_first_lyrics', name: 'First lyrics from the playlist'},
+		{ variableId: 'playlist_last_lyrics', name: 'Last lyrics from the playlist'},
 	])
 }
