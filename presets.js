@@ -5,8 +5,9 @@ module.exports = function (self) {
     const white = combineRgb(255, 255, 255)
     const red = combineRgb(255, 0, 0)
     const gray = combineRgb(64, 64, 64)
+    const blue = combineRgb(0, 0, 64)
 
-    self.setPresetDefinitions({
+    var presets = {
         prev: {
             type: 'button',
             category: 'Slide controls',
@@ -386,6 +387,92 @@ module.exports = function (self) {
                 },
             ]
         },
+        call_attention_cp: {
+            type: 'button',
+            category: 'Communication Panel',
+            name: 'Call for Attention',
+            style: {
+                text: '\u{1F56D}',
+                color: white,
+                bgcolor: blue,
+            },
+            steps: [
+                {
+                    down: [
+                        {
+                            actionId: 'call_attention_cp',
+                            options: {},
+                        }
+                    ],
+                    up: []
+                }
+            ],
+        },
+        stop_countdown_cp: {
+            type: 'button',
+            category: 'Communication Panel',
+            name: 'Stop CP Countdown',
+            style: {
+                color: white,
+                bgcolor: blue,
+                text: 'Stop\\nTimer'
+            },
+            steps: [
+                {
+                    down: [{
+                        actionId: 'stop_countdown_cp',
+                        options: {}
+                    }]
+                }
+            ],
+            feedbacks: [{
+                feedbackId: 'CPCountdown',
+                options: {},
+                style: {
+                    color: white,
+                    bgcolor: red,
+                }
+            }]
+        },
+    }
 
+    const times=[1, 3, 5, 10, 15, 30]
+    times.forEach( (time) => {
+        presets['cp_countdown'+time] = {
+            type: 'button',
+            category: 'Communication Panel',
+            name: 'Countdown, minutes='+time,
+            style: {
+                text: `Timer\\n${time}:00`,
+                color: white,
+                bgcolor: blue,
+            },
+            steps: [
+                {
+                    down: [
+                        {
+                            actionId: 'show_countdown_cp',
+                            options: { 
+                                minutes: time, 
+                                seconds: 0,
+                                yellow_starts_at: 30,
+                                stop_at_zero: true
+                            }
+                        }
+                    ],
+                    up: []
+                }
+            ],
+            feedbacks: [{
+                feedbackId: 'CPCountdown',
+                options: {},
+                style: {
+                    color: white,
+                    bgcolor: red,
+                    text: 'Timer\\n$(holyrics:cp_countdown)'
+                }
+            }]
+        }
     })
+    self.setPresetDefinitions(presets)
 }

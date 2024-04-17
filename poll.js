@@ -16,9 +16,34 @@ module.exports = async function (self) {
         return regex.test(row) ? row : null
     }
 
+    function formatTime(seconds) {
+        if (seconds==undefined || seconds==null || seconds==0) {
+            return '0:00'
+        }
+        var sign = ''
+        if (seconds<0) {
+            sign = '-'
+            seconds = -seconds
+        }
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const remainingSeconds = seconds % 60;
+    
+        const formattedHours = hours < 10 ? '0' + hours : hours;
+        const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+        const formattedSeconds = remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds;
+    
+        if (hours === 0) {
+            return `${sign}${formattedMinutes}:${formattedSeconds}`;
+        } else {
+            return `${sign}${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+        }
+    }
+
     var slide = JSON.parse(await self.do_command('GetCurrentPresentation', { include_slides: true }))
     var alert = JSON.parse(await self.do_command('GetAlert'))
     var mediaPlayer = JSON.parse(await self.do_command('GetMediaPlayerInfo'))
+    var controlPanel = JSON.parse(await self.do_command('GetCPInfo'))
 
     self.state['show_alert'] = alert?.data?.show
     self.state['slide_id'] = slide?.data?.id
@@ -57,6 +82,10 @@ module.exports = async function (self) {
     self.state['mp_playing'] = mediaPlayer?.data?.playing == true
     self.state['mp_time_elapsed'] = mediaPlayer?.data?.time_elapsed
     self.state['mp_time_remaining'] = mediaPlayer?.data?.time_remaining
+
+    self.state['cp_countdown_show'] = controlPanel?.data?.countdown_show == true
+    self.state['cp_countdown_seconds'] = controlPanel?.data?.countdown_time
+    self.state['cp_countdown'] = formatTime(controlPanel?.data?.countdown_time)
 
     self.setVariableValues(self.state)
     self.checkFeedbacks()

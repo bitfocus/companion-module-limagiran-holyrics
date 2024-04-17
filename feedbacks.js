@@ -34,6 +34,18 @@ module.exports = async function (self) {
 				return self.state['countdown'] != ""
 			}
 		},
+		CPCountdown: {
+			name: 'Communication Panel: Countdown active',
+			type: 'boolean',
+			defaultStyle: {
+				bgcolor: red,
+				color: black,
+			},
+			options: [],
+			callback: async (feedback) => {
+				return self.state['cp_countdown_show']
+			}
+		},
 		Slide: {
 			name: 'Any slide active',
 			type: 'boolean',
@@ -145,6 +157,5 @@ module.exports = async function (self) {
 				return self.state["playlist_last_lyrics"] == true
 			}
 		},
-
 	})
 }

@@ -6,7 +6,7 @@ module.exports = function (self) {
 			label: 'Volume (optional)',
 			id: 'volume',
 			default: '',
-                        regex: '/(^$|^[0-9]*$)/'
+            regex: '/(^$|^[0-9]*$)/'
 		},
 		{
 			type: 'checkbox',
@@ -142,9 +142,9 @@ module.exports = function (self) {
 				var settings = {
 					repeat: event.options.repeat,
 				}
-                                if (event.options.volume != '') {
+                if (event.options.volume != '') {
 					settings.volume = parseInt(event.options.volume)
-                                }
+                }
 				var file = event.options.file
 				if (file.charAt(0) === '"' && file.charAt(file.length - 1) === '"') {
 					// Remove the first and last characters (quotes)
@@ -168,9 +168,9 @@ module.exports = function (self) {
 				var settings = {
 					repeat: event.options.repeat,
 				}
-                                if (event.options.volume != '') {
+                if (event.options.volume != '') {
 					settings.volume = parseInt(event.options.volume)
-                                }
+                }
 				var file = event.options.file
 				if (file.charAt(0) === '"' && file.charAt(file.length - 1) === '"') {
 					// Remove the first and last characters (quotes)
@@ -368,6 +368,49 @@ module.exports = function (self) {
 					options["theme"] = {id: event.options.themeid}
 				}
 				self.do_command("ShowCountdown", options)
+			}
+		},
+		show_countdown_cp: {
+			name: 'Communication Panel: Show Countdown',
+			options: [
+				{
+					type: 'number',
+					label: 'Minutes',
+					id: 'minutes',
+					default: 3,
+				},
+				{
+					type: 'number',
+					label: 'Seconds',
+					id: 'seconds',
+					default: 0,
+				},
+				{
+					type: 'number',
+					label: 'Yellow starts at second',
+					id: 'yellow_starts_at',
+					default: 30,
+				},
+				{
+					type: 'checkbox',
+					label: 'Stop at Zero',
+					id: 'stop_at_zero'
+				},
+			],
+			callback: async (event) => {
+				self.do_command('StartCountdownCP',{
+					minutes: event.options.minutes,
+					seconds: event.options.seconds,
+					yellow_starts_at: event.options.yellow_starts_at,
+					stop_at_zero: event.options.stop_at_zero
+				})
+			}
+		},
+		call_attention_cp: {
+			name: 'Communication Panel: Call for attention',
+			options: [],
+			callback: async (event) => {
+				self.do_command('CommunicationPanelCallAttention')
 			}
 		},
 		close_presentation: {

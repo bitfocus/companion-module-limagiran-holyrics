@@ -20,5 +20,8 @@ module.exports = async function (self) {
 		{ variableId: 'current_lyrics_title', name: 'Title of the current lyrics from the playlist'},
 		{ variableId: 'playlist_first_lyrics', name: 'First lyrics from the playlist'},
 		{ variableId: 'playlist_last_lyrics', name: 'Last lyrics from the playlist'},
+		{ variableId: 'cp_countdown_show', name: 'Communication Panel: Countdown active'},
+		{ variableId: 'cp_countdown_seconds', name: 'Communication Panel: Remaining countdown seconds'},
+		{ variableId: 'cp_countdown', name: 'Communication Panel: Countdown time remaining'},
 	])
 }
