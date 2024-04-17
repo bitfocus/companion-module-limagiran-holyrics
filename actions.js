@@ -2,10 +2,11 @@ module.exports = function (self) {
 
     const PLAY_MEDIA_SETTINGS = [
 		{
-			type: 'number',
+			type: 'textinput',
 			label: 'Volume (optional)',
 			id: 'volume',
-			default: 100,
+			default: '',
+                        regex: '/(^$|^[0-9]*$)/'
 		},
 		{
 			type: 'checkbox',
@@ -139,9 +140,11 @@ module.exports = function (self) {
 			].concat(PLAY_MEDIA_SETTINGS),
 			callback: async (event) => {
 				var settings = {
-					volume: event.options.volume,
 					repeat: event.options.repeat,
 				}
+                                if (event.options.volume != '') {
+					settings.volume = parseInt(event.options.volume)
+                                }
 				var file = event.options.file
 				if (file.charAt(0) === '"' && file.charAt(file.length - 1) === '"') {
 					// Remove the first and last characters (quotes)
@@ -163,9 +166,11 @@ module.exports = function (self) {
 			].concat(PLAY_MEDIA_SETTINGS),
 			callback: async (event) => {
 				var settings = {
-					volume: event.options.volume,
 					repeat: event.options.repeat,
 				}
+                                if (event.options.volume != '') {
+					settings.volume = parseInt(event.options.volume)
+                                }
 				var file = event.options.file
 				if (file.charAt(0) === '"' && file.charAt(file.length - 1) === '"') {
 					// Remove the first and last characters (quotes)
