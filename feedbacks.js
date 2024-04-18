@@ -107,6 +107,54 @@ module.exports = async function (self) {
 				return self.state['mp_playing']
 			}
 		},
+		MP_Muted: {
+			name: 'MediaPlayer muted',
+			type: 'boolean',
+			defaultStyle: {
+				bgcolor: red,
+				color: black
+			},
+			options: [],
+			callback: async (feedback) => {
+				return self.state['mp_mute']
+			}
+		},
+		MP_Repeat: {
+			name: 'MediaPlayer repeat',
+			type: 'boolean',
+			defaultStyle: {
+				bgcolor: red,
+				color: black
+			},
+			options: [],
+			callback: async (feedback) => {
+				return self.state['mp_repeat']
+			}
+		},
+		MP_Execute_Single: {
+			name: 'MediaPlayer execute single',
+			type: 'boolean',
+			defaultStyle: {
+				bgcolor: red,
+				color: black
+			},
+			options: [],
+			callback: async (feedback) => {
+				return self.state['mp_execute_single']
+			}
+		},
+		MP_Fullscreen: {
+			name: 'MediaPlayer fullscreen',
+			type: 'boolean',
+			defaultStyle: {
+				bgcolor: red,
+				color: black
+			},
+			options: [],
+			callback: async (feedback) => {
+				return self.state['mp_fullscreen']
+			}
+		},
 		FirstSlide: {
 			name: "First slide of the presentation",
 			type: 'boolean',

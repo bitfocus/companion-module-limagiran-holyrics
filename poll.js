@@ -82,6 +82,10 @@ module.exports = async function (self) {
     self.state['mp_playing'] = mediaPlayer?.data?.playing == true
     self.state['mp_time_elapsed'] = mediaPlayer?.data?.time_elapsed
     self.state['mp_time_remaining'] = mediaPlayer?.data?.time_remaining
+    self.state['mp_mute'] = mediaPlayer?.data?.mute == true
+    self.state['mp_repeat'] = mediaPlayer?.data?.repeat == true
+    self.state['mp_execute_single'] = mediaPlayer?.data?.execute_single == true
+    self.state['mp_fullscreen'] = mediaPlayer?.data?.fullscreen == true
 
     self.state['cp_countdown_show'] = controlPanel?.data?.countdown_show == true
     self.state['cp_countdown_seconds'] = controlPanel?.data?.countdown_time

@@ -1,4 +1,5 @@
 const { combineRgb } = require('@companion-module/base')
+const icon = require('./icons')
 
 module.exports = function (self) {
     const black = combineRgb(0, 0, 0)
@@ -6,6 +7,7 @@ module.exports = function (self) {
     const red = combineRgb(255, 0, 0)
     const gray = combineRgb(64, 64, 64)
     const blue = combineRgb(0, 0, 64)
+    const gold = combineRgb(255, 215, 0)
 
     var presets = {
         prev: {
@@ -217,11 +219,11 @@ module.exports = function (self) {
             category: 'Media Player',
             name: 'Previous',
             style: {
-                text: '\u23ee',
-                color: white,
-                bgcolor: black,
+                text: '',
+                png64: icon["black"]["23ee"],
+                color: black,
+                bgcolor: gold,
                 alignment: 'center:bottom',
-
             },
             steps: [
                 {
@@ -239,11 +241,12 @@ module.exports = function (self) {
         mp_play_pause: {
             type: 'button',
             category: 'Media Player',
-            name: 'Play',
+            name: 'Play/Pause',
             style: {
-                text: '\u23f5',
-                color: white,
-                bgcolor: black,
+                text: '',
+                png64: icon["black"]["23ef"],
+                color: black,
+                bgcolor: gold,
                 alignment: 'center:bottom',
 
             },
@@ -263,6 +266,79 @@ module.exports = function (self) {
                     feedbackId: 'MP_Playing',
                     options: [],
                     style: {
+                        png64: null,
+                        color: black,
+                        bgcolor: red,
+                        text: '\u25b6\u23f8\\n$(holyrics:mp_time_remaining)'
+                    }
+                }
+            ]
+        },
+        mp_play: {
+            type: 'button',
+            category: 'Media Player',
+            name: 'Play',
+            style: {
+                text: '',
+                png64: icon["black"]["25b6"],
+                color: black,
+                bgcolor: gold,
+                alignment: 'center:bottom',
+
+            },
+            steps: [
+                {
+                    down: [
+                        {
+                            actionId: 'mp_play',
+                            options: {}
+                        }
+                    ],
+                    up: []
+                }
+            ],
+            feedbacks: [
+                {
+                    feedbackId: 'MP_Playing',
+                    options: [],
+                    style: {
+                        png64: null,
+                        color: black,
+                        bgcolor: red,
+                        text: '\u25b6\\n$(holyrics:mp_time_remaining)'
+                    }
+                }
+            ]
+        },
+        mp_pause: {
+            type: 'button',
+            category: 'Media Player',
+            name: 'Pause',
+            style: {
+                text: '',
+                png64: icon["black"]["23f8"],
+                color: black,
+                bgcolor: gold,
+                alignment: 'center:bottom',
+
+            },
+            steps: [
+                {
+                    down: [
+                        {
+                            actionId: 'mp_pause',
+                            options: {}
+                        }
+                    ],
+                    up: []
+                }
+            ],
+            feedbacks: [
+                {
+                    feedbackId: 'MP_Playing',
+                    options: [],
+                    style: {
+                        png64: null,
                         color: black,
                         bgcolor: red,
                         text: '\u23f8\\n$(holyrics:mp_time_remaining)'
@@ -275,11 +351,11 @@ module.exports = function (self) {
             category: 'Media Player',
             name: 'Next',
             style: {
-                text: '\u23ed',
-                color: white,
-                bgcolor: black,
+                text: '',
+                png64: icon["black"]["23ed"],
+                color: black,
+                bgcolor: gold,
                 alignment: 'center:bottom',
-
             },
             steps: [
                 {
@@ -293,6 +369,140 @@ module.exports = function (self) {
                 }
             ],
             feedbacks: []
+        },
+        mp_mute: {
+            type: 'button',
+            category: 'Media Player',
+            name: 'Mute',
+            style: {
+                text: '',
+                png64: icon["black"]["1f50a"],
+                color: black,
+                bgcolor: gold,
+                alignment: 'center:bottom',
+            },
+            steps: [
+                {
+                    down: [
+                        {
+                            actionId: 'mp_mute',
+                            options: {}
+                        }
+                    ],
+                    up: []
+                }
+            ],
+            feedbacks: [
+                {
+                    feedbackId: 'MP_Muted',
+                    options: [],
+                    style: {
+                        color: black,
+                        bgcolor: red,
+                        text: '',
+                        png64: icon["black"]["1f507"],
+                    }
+                }
+            ]
+        },
+        mp_repeat: {
+            type: 'button',
+            category: 'Media Player',
+            name: 'Repeat',
+            style: {
+                text: '',
+                png64: icon["black"]["1f501"],
+                color: black,
+                bgcolor: gold,
+                alignment: 'center:bottom',
+            },
+            steps: [
+                {
+                    down: [
+                        {
+                            actionId: 'mp_repeat',
+                            options: {}
+                        }
+                    ],
+                    up: []
+                }
+            ],
+            feedbacks: [
+                {
+                    feedbackId: 'MP_Repeat',
+                    options: [],
+                    style: {
+                        color: black,
+                        bgcolor: red,
+                    }
+                }
+            ]
+        },
+        mp_execute_single: {
+            type: 'button',
+            category: 'Media Player',
+            name: 'Execute Single',
+            style: {
+                text: '',
+                png64: icon["black"]["1f502"],
+                color: black,
+                bgcolor: gold,
+                alignment: 'center:bottom',
+            },
+            steps: [
+                {
+                    down: [
+                        {
+                            actionId: 'mp_execute_single',
+                            options: {}
+                        }
+                    ],
+                    up: []
+                }
+            ],
+            feedbacks: [
+                {
+                    feedbackId: 'MP_Execute_Single',
+                    options: [],
+                    style: {
+                        color: black,
+                        bgcolor: red,
+                    }
+                }
+            ]
+        },
+        mp_fullscreen: {
+            type: 'button',
+            category: 'Media Player',
+            name: 'Repeat',
+            style: {
+                text: '',
+                png64: icon["black"]["26f6"],
+                color: black,
+                bgcolor: gold,
+                alignment: 'center:bottom',
+            },
+            steps: [
+                {
+                    down: [
+                        {
+                            actionId: 'mp_fullscreen',
+                            options: {}
+                        }
+                    ],
+                    up: []
+                }
+            ],
+            feedbacks: [
+                {
+                    feedbackId: 'MP_Fullscreen',
+                    options: [],
+                    style: {
+                        color: black,
+                        bgcolor: red,
+                    }
+                }
+            ]
         },
         lyrics_playlist_previous: {
             type: 'button',
@@ -392,7 +602,8 @@ module.exports = function (self) {
             category: 'Communication Panel',
             name: 'Call for Attention',
             style: {
-                text: '\u{1F56D}',
+                text: '',
+                png64: icon["white"]["1f514"],
                 color: white,
                 bgcolor: blue,
             },

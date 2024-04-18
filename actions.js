@@ -321,6 +321,34 @@ module.exports = function (self) {
 				self.do_command('MediaPlayerAction', {action: 'previous'})
 			}
 		},
+		mp_mute: {
+			name: 'MediaPlayer Mute',
+			options: [],
+			callback: async (event) => {
+				self.do_command('MediaPlayerAction', {mute: !self.state['mp_mute'] })
+			}
+		},
+		mp_repeat: {
+			name: 'MediaPlayer Repeat',
+			options: [],
+			callback: async (event) => {
+				self.do_command('MediaPlayerAction', {mute: !self.state['mp_repeat'] })
+			}
+		},
+		mp_execute_single: {
+			name: 'MediaPlayer Execute Single',
+			options: [],
+			callback: async (event) => {
+				self.do_command('MediaPlayerAction', {execute_single: !self.state['mp_execute_single'] })
+			}
+		},
+		mp_fullscreen: {
+			name: 'MediaPlayer Fullscreen',
+			options: [],
+			callback: async (event) => {
+				self.do_command('MediaPlayerAction', {fullscreen: !self.state['mp_fullscreen'] })
+			}
+		},
 		show_countdown: {
 			name: 'Show Countdown',
 			options: [
@@ -404,6 +432,13 @@ module.exports = function (self) {
 					yellow_starts_at: event.options.yellow_starts_at,
 					stop_at_zero: event.options.stop_at_zero
 				})
+			}
+		},
+		stop_countdown_cp: {
+			name: 'Communication Panel: Stop Countdown',
+			options: [],
+			callback: async (event) => {
+				self.do_command('StopCountdownCP')
 			}
 		},
 		call_attention_cp: {
