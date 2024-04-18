@@ -346,6 +346,40 @@ module.exports = function (self) {
                 }
             ]
         },
+        mp_stop: {
+            type: 'button',
+            category: 'Media Player',
+            name: 'Stop',
+            style: {
+                text: '',
+                png64: icon["black"]["23f9"],
+                color: black,
+                bgcolor: gold,
+                alignment: 'center:bottom',
+
+            },
+            steps: [
+                {
+                    down: [
+                        {
+                            actionId: 'mp_stop',
+                            options: {}
+                        }
+                    ],
+                    up: []
+                }
+            ],
+            feedbacks: [
+                {
+                    feedbackId: 'MP_Playing',
+                    options: [],
+                    style: {
+                        color: black,
+                        bgcolor: red,
+                    }
+                }
+            ]
+        },
         mp_next: {
             type: 'button',
             category: 'Media Player',

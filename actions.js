@@ -336,7 +336,7 @@ module.exports = function (self) {
 			name: 'MediaPlayer Repeat',
 			options: [],
 			callback: async (event) => {
-				self.do_command('MediaPlayerAction', {mute: !self.state['mp_repeat'] })
+				self.do_command('MediaPlayerAction', {repeat: !self.state['mp_repeat'] })
 			}
 		},
 		mp_execute_single: {
