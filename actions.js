@@ -66,7 +66,7 @@ module.exports = function (self) {
 					label: 'Bible version',
 					id: 'version',
 					choices: self.CHOICES_BIBLE_VERSIONS,
-					default: self.CHOICES_BIBLE_VERSIONS[0].id
+					default: 'default',
 				},
 				{
 					type: 'textinput',
@@ -76,7 +76,11 @@ module.exports = function (self) {
 				}
 			],
 			callback: async (event) => {
-				self.do_command('ShowVerse', {version: event.options.version, references: event.options.verses})
+				var options = {references: event.options.verses}
+				if (event.options.version != 'default') {
+					options['version'] = event.options.version
+				}
+				self.do_command('ShowVerse', options)
 			}
 		},
 		show_lyrics: {

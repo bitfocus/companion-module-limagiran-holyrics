@@ -28,7 +28,13 @@ class ModuleInstance extends InstanceBase {
 
 		var bible_versions = JSON.parse( await this.do_command('GetBibleVersions') )
 		if (bible_versions != null) {
-			this.CHOICES_BIBLE_VERSIONS = bible_versions.data.map( (v) => { return { id: v['key'], label: v['title'] } })
+			this.CHOICES_BIBLE_VERSIONS = bible_versions.data.map( (v) => {
+				if (v['key'].startsWith("#shortcut ")) {
+					return { id: v['version'], label: v['key'].substring(10) + " (shortcut)" }
+				}
+				return { id: v['key'], label: v['title'] }
+			})
+			this.CHOICES_BIBLE_VERSIONS.unshift({id: 'default', label: 'Use system default'})
 		} else {
 			this.CHOICES_BIBLE_VERSIONS = [{id: '0', label:'NOT INITIALIZED'}]
 		}
