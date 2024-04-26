@@ -6,7 +6,10 @@ const UpdateVariableDefinitions = require('./variables')
 const UpdatePresets = require('./presets')
 const PollVariables = require('./poll')
 
+
 class ModuleInstance extends InstanceBase {
+	static DEVELOPER_forceStartupUpgradeScript = 0
+
 	constructor(internal) {
 		super(internal)
 	}

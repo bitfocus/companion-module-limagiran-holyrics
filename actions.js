@@ -6,7 +6,7 @@ module.exports = function (self) {
 			label: 'Volume (optional)',
 			id: 'volume',
 			default: '',
-            regex: '/(^$|^[0-9]*$)/'
+			regex: '/(^$|^[0-9]*$)/'
 		},
 		{
 			type: 'checkbox',

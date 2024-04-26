@@ -8,6 +8,7 @@ module.exports = function (self) {
     const gray = combineRgb(64, 64, 64)
     const blue = combineRgb(0, 0, 64)
     const gold = combineRgb(255, 215, 0)
+    const green = combineRgb(0, 128, 0)
 
     var presets = {
         prev: {
@@ -17,7 +18,7 @@ module.exports = function (self) {
             style: {
                 text: '<\\nPrev',
                 color: black,
-                bgcolor: combineRgb(0, 128, 0),
+                bgcolor: green,
             },
             steps: [
                 {
@@ -57,7 +58,7 @@ module.exports = function (self) {
             style: {
                 text: '>\\nNext',
                 color: black,
-                bgcolor: combineRgb(0, 128, 0),
+                bgcolor: green,
             },
             steps: [
                 {
@@ -95,9 +96,10 @@ module.exports = function (self) {
             category: 'Slide controls',
             name: 'Hide slides',
             style: {
-                text: 'Hide slides',
-                color: white,
-                bgcolor: black
+                text: '',
+                png64: icon["black"]["274e"],
+                color: black,
+                bgcolor: green
             },
             steps: [
                 {
@@ -545,7 +547,7 @@ module.exports = function (self) {
             style: {
                 text: '\u23ee',
                 bgcolor: black,
-                color: combineRgb(0, 128, 0),
+                color: green,
             },
             steps: [
                 {
@@ -576,7 +578,7 @@ module.exports = function (self) {
             style: {
                 text: '$(holyrics:current_lyrics_title)',
                 bgcolor: black,
-                color: combineRgb(0, 128, 0),
+                color: green,
             },
             steps: [
                 {
@@ -607,7 +609,7 @@ module.exports = function (self) {
             style: {
                 text: '\u23ed',
                 bgcolor: black,
-                color: combineRgb(0, 128, 0),
+                color: green,
             },
             steps: [
                 {
