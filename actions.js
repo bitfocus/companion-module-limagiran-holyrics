@@ -147,7 +147,10 @@ module.exports = function (self) {
 					repeat: event.options.repeat,
 				}
                 if (event.options.volume != '') {
-					settings.volume = parseInt(event.options.volume)
+					const v = parseInt(event.options.volume)
+					if (!isNaN(v)) {
+						settings.volume = v
+					}
                 }
 				var file = event.options.file
 				if (file.charAt(0) === '"' && file.charAt(file.length - 1) === '"') {
@@ -173,8 +176,11 @@ module.exports = function (self) {
 					repeat: event.options.repeat,
 				}
                 if (event.options.volume != '') {
-					settings.volume = parseInt(event.options.volume)
-                }
+					const v = parseInt(event.options.volume)
+					if (!isNaN(v)) {
+						settings.volume = v
+					}
+				}
 				var file = event.options.file
 				if (file.charAt(0) === '"' && file.charAt(file.length - 1) === '"') {
 					// Remove the first and last characters (quotes)
