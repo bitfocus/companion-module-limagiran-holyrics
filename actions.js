@@ -58,6 +58,19 @@ module.exports = function (self) {
 				self.do_command('ActionPrevious', {})
 			},
 		},
+		goto_slide_description: {
+			name: 'Go to Slide Description',
+			options: [
+				{
+					type: 'textinput',
+					label: 'Slide description',
+					id: 'slide_description',
+				}
+			],
+			callback: async (event) => {
+				self.do_command('ActionGoToSlideDescription', {name: event.options.slide_description} )
+			}
+		},
 		show_verse: {
 			name: 'Show Verse(s)',
 			options: [

@@ -183,6 +183,24 @@ module.exports = async function (self) {
 				return false
 			}
 		},
+		SlideDescription: {
+			name: "Slide description of the current slide",
+			type: 'boolean',
+			defaultStyle: {
+				bgcolor: red,
+				color: black,
+			},
+			options: [
+				{
+					type: 'textinput',
+					label: 'Slide Description',
+					id: 'slide_description',
+				}
+			],
+			callback: async (feedback) => {
+				return self.state['slide_description'] == feedback.options.slide_description
+			}
+		},
 		FirstLyricsPlaylist: {
 			name: "First lyrics from the playlist",
 			type: 'boolean',

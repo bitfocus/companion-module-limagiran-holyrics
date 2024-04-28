@@ -53,6 +53,11 @@ module.exports = async function (self) {
     self.state['reference_id'] = slide?.data?.reference_id
     self.state['slide_number'] = slide?.data?.slide_number
     self.state['slide_count'] = slide?.data?.total_slides
+    if (slide?.data?.slide_number != undefined) {
+        self.state['slide_description'] = slide?.data?.slides[slide.data.slide_number-1].slide_description
+    } else {
+        self.state['slide_description'] = ''
+    }
     
     if (slide?.data?.slide_type != undefined) {
         self.state['f8_active'] = slide.data.slide_type == 'wallpaper'
@@ -94,24 +99,3 @@ module.exports = async function (self) {
     self.setVariableValues(self.state)
     self.checkFeedbacks()
 }
-
-/* 
-{
-  "status": "ok",
-  "data": {
-    "name": "Sternengeschichten Folge 592: Killersatelliten und Weltraumwaffen",
-    "path": "C:\\Holyrics\\Holyrics\\files\\media\\audio\\1399936-m-0a446e841422777d8492a441644d6968.mp3",
-    "playing": true,
-    "duration_ms": 662282,
-    "time_ms": 244577,
-    "time_elapsed": "04:04",
-    "time_remaining": "06:57",
-    "volume": 90,
-    "mute": false,
-    "repeat": false,
-    "execute_single": true,
-    "shuffle": false,
-    "fullscreen": false
-  }
-}
-*/

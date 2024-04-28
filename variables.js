@@ -3,6 +3,7 @@ module.exports = async function (self) {
 		{ variableId: 'slide_id', name: 'Holyrics: ID of the current slide' },
 		{ variableId: 'slide_type', name: 'Holyrics: Type of the current slide' },
 		{ variableId: 'slide_name', name: 'Holyrics: Type of the current slide' },
+		{ variableId: 'slide_description', name: 'Holyrics: Description of the current slide' },
 		{ variableId: 'song_id', name: 'Holyrics: ID of the current song' },
 		{ variableId: 'text_id', name: 'Holyrics: ID of the current text' },
 		{ variableId: 'reference_id', name: 'Holyrics: Reference ID' },

@@ -683,7 +683,7 @@ module.exports = function (self) {
         },
     }
 
-    const times=[1, 3, 5, 10, 15, 30]
+    const times = [1, 3, 5, 10, 15, 30]
     times.forEach( (time) => {
         presets['cp_countdown'+time] = {
             type: 'button',
@@ -717,6 +717,46 @@ module.exports = function (self) {
                     color: white,
                     bgcolor: red,
                     text: 'Timer\\n$(holyrics:cp_countdown)'
+                }
+            }]
+        }
+    })
+
+    const tags = ['Chorus', 'Verse', 'PreChorus', 'Intro', 'Bridge', 'Tag', 'End', 
+        'Verse 1', 'Verse 2', 'Verse 3', 'Verse 4', 'Verse 5', 'Verse 6', 'Verse 7', 'Verse 8', 'Verse 9', 
+        'Refrão', 'Versículo 1', 'Versículo 2', 'Versículo 3', 'Versículo 4', 'Versículo 5', 'Versículo 6',
+        'Versículo 7', 'Versículo 8', 'Versículo 9']
+
+    tags.forEach( (tag) => {
+        presets['Desc '+tag] = {
+            type: 'button',
+            category: 'Go To Site Description',
+            name: tag,
+            style: {
+                text: tag,
+                color: white,
+                bgcolor: black,
+                size: "18",
+            },
+            steps: [
+                {
+                    down: [{
+                        actionId: 'goto_slide_description',
+                        options: {
+                            slide_description: tag,
+                        }
+                    }],
+                    up: []
+                }
+            ],
+            feedbacks: [{
+                feedbackId: 'SlideDescription',
+                options: {
+                    slide_description: tag
+                },
+                style: {
+                    color: black,
+                    bgcolor: white,
                 }
             }]
         }
