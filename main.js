@@ -20,6 +20,9 @@ class ModuleInstance extends InstanceBase {
 	}
 	// When module gets deleted
 	async destroy() {
+		if (this.pollTimer) {
+			clearInterval(this.pollTimer)
+		}
 		this.log('debug', 'destroy')
 	}
 
@@ -47,7 +50,7 @@ class ModuleInstance extends InstanceBase {
 		this.updateVariableDefinitions() // export variable definitions
 		this.initPolling()
 		
-		this.updatePresets()
+		await this.updatePresets()
 	}
 
 	// Return config fields for web config
@@ -79,8 +82,8 @@ class ModuleInstance extends InstanceBase {
 		]
 	}
 
-	updatePresets() {
-		UpdatePresets(this)
+	async updatePresets() {
+		await UpdatePresets(this)
 	}
 
 	updateActions() {
