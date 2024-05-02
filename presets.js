@@ -783,6 +783,5 @@ module.exports = async function (self) {
             }
         })
     })
-    console.log(JSON.stringify(presets))
     self.setPresetDefinitions(presets)
 }
