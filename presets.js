@@ -723,77 +723,66 @@ module.exports = async function (self) {
     })
 
     var tags = [
-        {"section":"English","name":"Chorus"},
-        {"section":"English","name":"Verse"},
-        {"section":"English","name":"PreChorus"},
-        {"section":"English","name":"Intro"},
-        {"section":"English","name":"Bridge"},
-        {"section":"English","name":"Tag"},
-        {"section":"English","name":"End"},
-        {"section":"English","name":"Verse 1"},
-        {"section":"English","name":"Verse 2"},
-        {"section":"English","name":"Verse 3"},
-        {"section":"English","name":"Verse 4"},
-        {"section":"English","name":"Verse 5"},
-        {"section":"English","name":"Verse 6"},
-        {"section":"English","name":"Verse 7"},
-        {"section":"English","name":"Verse 8"},
-        {"section":"English","name":"Verse 9"},
-        {"section":"Português","name":"Coro"},
-        {"section":"Português","name":"Refrão"},
-        {"section":"Português","name":"Verso"},
-        {"section":"Português","name":"Pré-Coro"},
-        {"section":"Português","name":"Introdução"},
-        {"section":"Português","name":"Ponte"},
-        {"section":"Português","name":"Final"},
-        {"section":"Português","name":"Verso 1"},
-        {"section":"Português","name":"Verso 2"},
-        {"section":"Português","name":"Verso 3"},
-        {"section":"Português","name":"Verso 4"},
-        {"section":"Português","name":"Verso 5"},
-        {"section":"Português","name":"Verso 6"},
-        {"section":"Português","name":"Verso 7"},
-        {"section":"Português","name":"Verso 8"},
-        {"section":"Português","name":"Verso 9"}]
+        {"section":"English", "names":
+            [ "Chorus", "Verse", "Intro", "Bridge", "Tag", "End", "PreChorus",
+              "Verse 1", "Verse 2", "Verse 3", "Verse 4", "Verse 5",
+              "Verse 6", "Verse 7", "Verse 8", "Verse 9" ]},
+        {"section":"Português","names":
+            [ "Coro", "Refrão", "Verso", "Pré-Coro", "Introdução", "Ponte", "Final", 
+              "Verso 1", "Verso 2", "Verso 3", "Verso 4", "Verso 5",
+              "Verso 6", "Verso 7", "Verso 8", "Verso 9" ]}
+    ]
 
     var custom_tags = JSON.parse(await self.do_command('GetSlideDescriptions'))
     if (custom_tags?.data != undefined) {
-        tags = tags.concat( custom_tags.data.map(e => {return {"section": "Custom", "name": e.name}}))
+        tags.push({
+            "section": "Custom",
+            "names": custom_tags.data.map(e => e.name)
+        })
     }
 
     tags.forEach( (tag) => {
-        presets['Desc '+tag.name] = {
-            type: 'button',
-            category: `Go To Slide Description (${tag.section})`,
-            name: tag,
-            style: {
-                text: tag.name,
-                color: white,
-                bgcolor: black,
-                size: "18",
-            },
-            steps: [
-                {
-                    down: [{
-                        actionId: 'goto_slide_description',
-                        options: {
-                            slide_description: tag.name,
-                        }
-                    }],
-                    up: []
-                }
-            ],
-            feedbacks: [{
-                feedbackId: 'SlideDescription',
-                options: {
-                    slide_description: tag.name
-                },
-                style: {
-                    color: black,
-                    bgcolor: white,
-                }
-            }]
+        presets['Header'+tag.section] = {
+            category: 'Go To Slide Description',
+            name: tag.section,
+            type: 'text',
+            text: ''
         }
+        tag.names.forEach( name => {
+           presets['Desc'+tag.section+name] = {
+               type: 'button',
+               category: `Go To Slide Description`,
+               name: name,
+               style: {
+                   text: name,
+                   color: white,
+                   bgcolor: black,
+                   size: "18",
+               },
+               steps: [
+                   {
+                       down: [{
+                           actionId: 'goto_slide_description',
+                           options: {
+                               slide_description: name,
+                           }
+                       }],
+                       up: []
+                   }
+               ],
+               feedbacks: [{
+                   feedbackId: 'SlideDescription',
+                   options: {
+                       slide_description: name
+                   },
+                   style: {
+                       color: black,
+                       bgcolor: white,
+                   }
+               }]
+            }
+        })
     })
+    console.log(JSON.stringify(presets))
     self.setPresetDefinitions(presets)
 }
