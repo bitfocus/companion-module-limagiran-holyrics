@@ -10,8 +10,8 @@ module.exports = async function (self) {
     const gold = combineRgb(255, 215, 0)
     const green = combineRgb(0, 128, 0)
 
-    var presets = [
-        {
+    var presets = {
+        prev: {
             type: 'button',
             category: 'Slide controls',
             name: 'Previous',
@@ -51,7 +51,7 @@ module.exports = async function (self) {
                 }
             ]
         },
-        {
+        next: {
             type: 'button',
             category: 'Slide controls',
             name: 'Next',
@@ -91,7 +91,7 @@ module.exports = async function (self) {
                 }
             ]
         },
-        {
+        close_presentation: {
             type: 'button',
             category: 'Slide controls',
             name: 'Hide slides',
@@ -123,7 +123,7 @@ module.exports = async function (self) {
                 }
             ]
         },
-        {
+        f8: {
             type: 'button',
             category: 'F-Keys',
             name: 'Toggle Wallpaper',
@@ -154,7 +154,7 @@ module.exports = async function (self) {
                 }
             ]
         },
-        {
+        f9: {
             type: 'button',
             category: 'F-Keys',
             name: 'Toggle Empty Slide',
@@ -185,7 +185,7 @@ module.exports = async function (self) {
                 }
             ]
         },
-        {
+        f10: {
             type: 'button',
             category: 'F-Keys',
             name: 'Toggle Black Screen',
@@ -216,7 +216,7 @@ module.exports = async function (self) {
                 }
             ]
         },
-        {
+        mp_previous: {
             type: 'button',
             category: 'Media Player',
             name: 'Previous',
@@ -240,7 +240,7 @@ module.exports = async function (self) {
             ],
             feedbacks: []
         },
-        {
+        mp_play_pause: {
             type: 'button',
             category: 'Media Player',
             name: 'Play/Pause',
@@ -276,7 +276,7 @@ module.exports = async function (self) {
                 }
             ]
         },
-        {
+        mp_play: {
             type: 'button',
             category: 'Media Player',
             name: 'Play',
@@ -312,7 +312,7 @@ module.exports = async function (self) {
                 }
             ]
         },
-        {
+        mp_pause: {
             type: 'button',
             category: 'Media Player',
             name: 'Pause',
@@ -348,7 +348,7 @@ module.exports = async function (self) {
                 }
             ]
         },
-        {
+        mp_stop: {
             type: 'button',
             category: 'Media Player',
             name: 'Stop',
@@ -382,7 +382,7 @@ module.exports = async function (self) {
                 }
             ]
         },
-        {
+        mp_next: {
             type: 'button',
             category: 'Media Player',
             name: 'Next',
@@ -406,7 +406,7 @@ module.exports = async function (self) {
             ],
             feedbacks: []
         },
-        {
+        mp_mute: {
             type: 'button',
             category: 'Media Player',
             name: 'Mute',
@@ -441,7 +441,7 @@ module.exports = async function (self) {
                 }
             ]
         },
-        {
+        mp_repeat: {
             type: 'button',
             category: 'Media Player',
             name: 'Repeat',
@@ -474,7 +474,7 @@ module.exports = async function (self) {
                 }
             ]
         },
-        {
+        mp_execute_single: {
             type: 'button',
             category: 'Media Player',
             name: 'Execute Single',
@@ -507,7 +507,7 @@ module.exports = async function (self) {
                 }
             ]
         },
-        {
+        mp_fullscreen: {
             type: 'button',
             category: 'Media Player',
             name: 'Repeat',
@@ -540,7 +540,7 @@ module.exports = async function (self) {
                 }
             ]
         },
-        {
+        lyrics_playlist_previous: {
             type: 'button',
             category: 'Lyrics Playlist',
             name: 'Previous lyrics',
@@ -571,7 +571,7 @@ module.exports = async function (self) {
                 },
             ]
         },
-        {
+        lyrics_playlist_show_current: {
             type: 'button',
             category: 'Lyrics Playlist',
             name: 'Show current',
@@ -602,7 +602,7 @@ module.exports = async function (self) {
                 }
             }]
         },
-        {
+        lyrics_playlist_next: {
             type: 'button',
             category: 'Lyrics Playlist',
             name: 'Next lyrics',
@@ -633,7 +633,7 @@ module.exports = async function (self) {
                 },
             ]
         },
-        {
+        call_attention_cp: {
             type: 'button',
             category: 'Communication Panel',
             name: 'Call for Attention',
@@ -655,7 +655,7 @@ module.exports = async function (self) {
                 }
             ],
         },
-        {
+        stop_countdown_cp: {
             type: 'button',
             category: 'Communication Panel',
             name: 'Stop CP Countdown',
@@ -681,11 +681,11 @@ module.exports = async function (self) {
                 }
             }]
         },
-    ]
+    }
 
     const times = [1, 3, 5, 10, 15, 30]
     times.forEach( (time) => {
-        presets.push({
+        presets['cp_countdown'+time] = {
             type: 'button',
             category: 'Communication Panel',
             name: 'Countdown, minutes='+time,
@@ -719,7 +719,7 @@ module.exports = async function (self) {
                     text: 'Timer\\n$(holyrics:cp_countdown)'
                 }
             }]
-        })
+        }
     })
 
     var tags = [
@@ -742,14 +742,14 @@ module.exports = async function (self) {
     }
 
     tags.forEach( (tag) => {
-        presets.push({
+        presets['Header'+tag.section] = {
             category: 'Go To Slide Description',
             name: tag.section,
             type: 'text',
             text: ''
-        })
+        }
         tag.names.forEach( name => {
-           presets.push({
+           presets['Desc'+tag.section+name] = {
                type: 'button',
                category: `Go To Slide Description`,
                name: name,
@@ -780,7 +780,7 @@ module.exports = async function (self) {
                        bgcolor: white,
                    }
                }]
-            })
+            }
         })
     })
     self.setPresetDefinitions(presets)
