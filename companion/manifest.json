@@ -1,9 +1,9 @@
 {
-	"id": "companion-module-limagiran-holyrics",
-	"name": "companion-module-limagiran-holyrics",
+	"id": "limagiran-holyrics",
+	"name": "limagiran-holyrics",
 	"shortname": "holyrics",
 	"description": "Control Holyrics, a tool to display lyrics or bible verses",
-	"version": "1.2.1",
+	"version": "0.0.0",
 	"license": "MIT",
 	"repository": "git+https://github.com/bitfocus/companion-module-limagiran-holyrics.git",
 	"bugs": "https://github.com/bitfocus/companion-module-limagiran-holyrics/issues",
@@ -19,7 +19,7 @@
 		"apiVersion": "0.0.0",
 		"entrypoint": "../main.js"
 	},
-	"legacyIds": [],
+	"legacyIds": ["companion-module-limagiran-holyrics"],
 	"manufacturer": "Lima Giran Ltda.",
 	"products": ["Holyrics"],
 	"keywords": ["lyrics","bible verses", "presentation"]
