@@ -6,7 +6,6 @@ const UpdateVariableDefinitions = require('./variables')
 const UpdatePresets = require('./presets')
 const PollVariables = require('./poll')
 
-
 class ModuleInstance extends InstanceBase {
 	static DEVELOPER_forceStartupUpgradeScript = 0
 
@@ -30,26 +29,25 @@ class ModuleInstance extends InstanceBase {
 		this.config = config
 
 		this.connected = false
-		
 
-		var bible_versions = JSON.parse( await this.do_command('GetBibleVersions') )
+		var bible_versions = JSON.parse(await this.do_command('GetBibleVersions'))
 		if (bible_versions != null) {
-			this.CHOICES_BIBLE_VERSIONS = bible_versions.data.map( (v) => {
-				if (v['key'].startsWith("#shortcut ")) {
-					return { id: v['version'], label: v['key'].substring(10) + " (shortcut)" }
+			this.CHOICES_BIBLE_VERSIONS = bible_versions.data.map((v) => {
+				if (v['key'].startsWith('#shortcut ')) {
+					return { id: v['version'], label: v['key'].substring(10) + ' (shortcut)' }
 				}
 				return { id: v['key'], label: v['title'] }
 			})
-			this.CHOICES_BIBLE_VERSIONS.unshift({id: 'default', label: 'Use system default'})
+			this.CHOICES_BIBLE_VERSIONS.unshift({ id: 'default', label: 'Use system default' })
 		} else {
-			this.CHOICES_BIBLE_VERSIONS = [{id: '0', label:'NOT INITIALIZED'}]
+			this.CHOICES_BIBLE_VERSIONS = [{ id: '0', label: 'NOT INITIALIZED' }]
 		}
 
 		this.updateActions() // export actions
 		this.updateFeedbacks() // export feedbacks
 		this.updateVariableDefinitions() // export variable definitions
 		this.initPolling()
-		
+
 		await this.updatePresets()
 	}
 
@@ -72,7 +70,7 @@ class ModuleInstance extends InstanceBase {
 				min: 1,
 				max: 65535,
 				default: 8091,
-			},	
+			},
 			{
 				type: 'textinput',
 				id: 'token',
@@ -103,24 +101,27 @@ class ModuleInstance extends InstanceBase {
 			clearInterval(this.pollTimer)
 		}
 		this.pollTimer = setInterval(async () => {
-			PollVariables(this)
-		},1000)
- 
+			try {
+				await PollVariables(this)
+			} catch (e) {
+				this.log('error', `Polling error: ${e?.message ?? e}`)
+			}
+		}, 1000)
 	}
 
-	async do_command(cmd, options={}) {
+	async do_command(cmd, options = {}) {
 		async function fetchWithTimeout(resource, options = {}) {
 			const { timeout = 8000 } = options
-			
+
 			const controller = new AbortController()
 			const id = setTimeout(() => controller.abort(), timeout)
-		  
+
 			const response = await fetch(resource, {
-			  ...options,
-			  signal: controller.signal  
+				...options,
+				signal: controller.signal,
 			})
 			clearTimeout(id)
-		  
+
 			return response
 		}
 
@@ -134,7 +135,7 @@ class ModuleInstance extends InstanceBase {
 				},
 				body: JSON.stringify(options),
 			})
-			
+
 			if (response.status != 200) {
 				this.connected = false
 				this.updateStatus(InstanceStatus.ConnectionFailure, response.statusText)
